@@ -1,3 +1,9 @@
 # Banshee Project
 
-mixeur de son sur une platforme web.
+mixeur de sons sur une platforme web.
+
+
+
+# Outils 
+
+HTML, JS, CSS.
