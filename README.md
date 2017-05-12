@@ -1,2 +1,2 @@
-# -NameProjectPL-
+# Banshee Project
 PL
