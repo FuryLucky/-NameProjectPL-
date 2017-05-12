@@ -1,2 +1,3 @@
 # Banshee Project
-PL
+
+mixeur de son sur une platforme web.
