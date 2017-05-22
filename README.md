@@ -1,6 +1,6 @@
 # Banshee Project
 
-Un Jeux styler
+Un Jeu styler
 
 
 # Outils 
