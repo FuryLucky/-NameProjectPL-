@@ -18,7 +18,7 @@ plusieur armes seront disponible pour franchire les differents obstacles.
 
 # Outils 
 
-HTML, JS, CSS.
+HTML, JS, CSS, PHASER.
 
 # Data
 
