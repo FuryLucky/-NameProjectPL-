@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Banshee - Level Select</title>
+	<meta charset="utf-8">
+
+	<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='menu.html'">
+<style type="text/css">
+
+body {
+    background: #000;
+    margin: 0;
+    cursor: crosshair;
+}
+canvas{
+    margin-top: 2%;
+    margin-left: 20%;
+}
+</style>
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl Select', { preload: preload, create: create, update: update, render: render });
+
+function preload() {
+	game.load.image('1', 'img/sel/1.png');
+    game.load.image('2', 'img/sel/2.png');
+    game.load.image('3', 'img/sel/3.png');
+    game.load.image('4', 'img/sel/4.png');
+    game.load.image('5', 'img/sel/5.png');
+    game.load.image('6', 'img/sel/6.png');
+    game.load.image('7', 'img/sel/7.png');
+    game.load.image('8', 'img/sel/8.png');
+    game.load.image('9', 'img/sel/9.png');
+    game.load.image('10', 'img/sel/10.png');
+    game.load.image('11', 'img/sel/11.png');
+    game.load.image('12', 'img/sel/12.png');
+    game.load.image('13', 'img/sel/13.png');
+    game.load.image('14', 'img/sel/14.png');
+
+
+ }
+
+function create() {
+	game.stage.backgroundColor = '#182d3b';
+
+	var style = { font: "bold 32px Monoton", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+	var stylebtn = { font: "bold 16px Monoton", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+
+    text = game.add.text(0, 0, "Level Selector", style);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    text.setTextBounds(0, 30, 800, 100);
+
+
+    button1 = game.add.button(70, 200, '1', actionOnClick1);
+    button1.scale.setTo(0.5,0.5);
+    text1 = game.add.text(82, 222, "Lvl 1", stylebtn);
+
+    button2 = game.add.button(170, 200, '2', actionOnClick2);
+    button2.scale.setTo(0.5,0.5);
+    text2 = game.add.text(182, 222, "Lvl 2", stylebtn);
+
+    button3 = game.add.button(270, 200, '3', actionOnClick3);
+    button3.scale.setTo(0.5,0.5);
+    text3 = game.add.text(282, 222, "Lvl 3", stylebtn);
+
+    button4 = game.add.button(370, 200, '4', actionOnClick4);
+    button4.scale.setTo(0.5,0.5);
+    text4 = game.add.text(382, 222, "Lvl 4", stylebtn);
+
+    button5 = game.add.button(470, 200, '5', actionOnClick5);
+    button5.scale.setTo(0.5,0.5);
+    text5 = game.add.text(480, 222, "Lvl 5", stylebtn);
+
+    button6 = game.add.button(570, 200, '6', actionOnClick6);
+    button6.scale.setTo(0.5,0.5);
+    text6 = game.add.text(580, 222, "Lvl 6", stylebtn);
+
+	button7 = game.add.button(670, 200, '7', actionOnClick7);
+    button7.scale.setTo(0.5,0.5);
+    text7 = game.add.text(680, 222, "Lvl 7", stylebtn);
+
+
+    button8 = game.add.button(70, 300, '8', actionOnClick8);
+    button8.scale.setTo(0.5,0.5);
+    text8 = game.add.text(80, 322, "Lvl 8", stylebtn);
+
+    button9 = game.add.button(170, 300, '9', actionOnClick9);
+    button9.scale.setTo(0.5,0.5);
+    text9 = game.add.text(180, 322, "Lvl 9", stylebtn);
+
+    button10 = game.add.button(270, 300, '10', actionOnClick10);
+    button10.scale.setTo(0.5,0.5);
+    text10 = game.add.text(276, 322, "Lvl 10", stylebtn);
+
+    button11 = game.add.button(370, 300, '11', actionOnClick11);
+    button11.scale.setTo(0.5,0.5);
+    text11 = game.add.text(376, 322, "Lvl 11", stylebtn);
+
+    button12 = game.add.button(470, 300, '12', actionOnClick12);
+    button12.scale.setTo(0.5,0.5);
+    text12 = game.add.text(476, 322, "Lvl 12", stylebtn);
+
+    button13 = game.add.button(570, 300, '13', actionOnClick13);
+    button13.scale.setTo(0.5,0.5);
+    text13 = game.add.text(576, 322, "Lvl 13", stylebtn);
+
+	button14 = game.add.button(670, 300, '14', actionOnClick14);
+    button14.scale.setTo(0.5,0.5);
+    text14 = game.add.text(676, 322, "Lvl 14", stylebtn);
+
+}
+
+function actionOnClick1 () {window.location.href='lvl1.html';}
+function actionOnClick2 () {window.location.href='lvl2.html';}
+function actionOnClick3 () {window.location.href='lvl3.html';}
+function actionOnClick4 () {window.location.href='lvl4.html';}
+function actionOnClick5 () {window.location.href='lvl5.html';}
+function actionOnClick6 () {window.location.href='lvl6.html';}
+function actionOnClick7 () {window.location.href='lvl7.html';}
+function actionOnClick8 () {window.location.href='lvl8.html';}
+function actionOnClick9 () {window.location.href='lvl9.html';}
+function actionOnClick10 () {window.location.href='lvl10.html';}
+function actionOnClick11 () {window.location.href='lvl11.html';}
+function actionOnClick12 () {window.location.href='lvl12.html';}
+function actionOnClick13 () {window.location.href='lvl13.html';}
+function actionOnClick14 () {window.location.href='lvl14.html';}
+
+
+function update() {}
+
+function render() {}
+
+</script>
+</body>
+</html>

@@ -6,8 +6,12 @@
 
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script type="text/javascript" src="js/effet.js"></script>
 </head>
 <body>
+<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='menu.html'">
+<p style="color: white; display: inline-block; margin-left: 580px; margin-bottom: 0px;"> :2: Rebond</p>
 <style type="text/css">
 body {
 	background: #000;
@@ -23,7 +27,7 @@ canvas{
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl5', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-    game.load.image('back', 'img/back.jpeg');
+    game.load.image('back', 'img/5.jpeg');
     game.load.image('target', 'img/target.png');
     game.load.image('platform', 'img/platform.png');
     game.load.image('start', 'img/start.png');
@@ -97,10 +101,13 @@ function create() {
 }
 
 function hitWorldBounds (sprite) {
-   count--;  
+    bounceBall();
+    count--;  
 }
 
 function update() {
+
+    launchBall();
 
     start.rotation += 0.03;
     
@@ -117,11 +124,9 @@ function update() {
         if (shoot === 0) {
             launch()
             shoot++;
-            console.log(shoot);
         }else{
             return;
-        }
-        
+        }    
     }
 
     if (count === -1) 
@@ -149,6 +154,8 @@ function update() {
 
 function overlapHandler (obj1, obj2) {
 
+    hitBall();
+
     obj1.kill();
     obj2.kill();
     wall.kill();
@@ -165,6 +172,10 @@ function overlapHandler (obj1, obj2) {
     text.stroke = '#000000';
     text.strokeThickness = 6;
     text.fill = 'orange';
+
+    setTimeout(function(){  
+        window.location.href='lvl6.html';
+    }, 600);
     
 
 }
