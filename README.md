@@ -15,7 +15,7 @@ Le joueur incarne une balle qui doit parcourir la map en moin de rebond possible
 * la cible peut bouger (reste la toi !).
 * la map peu "evoluer" (nan c pas un pokémon).
 * le joueur peu recommencer autant de foix qui le veux mais doit finir le lvl pour passer au lvl supérieur.
-* le jeux contient 14 level.
+* 14 level disponible.
 
 # Outils 
 
