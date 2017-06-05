@@ -1,10 +1,9 @@
 # Banshee Game
 
-Jeu de tir ou il faut detruire des cibles mais plusieur obstables pertuberont votre objectif.
 
 type: stratégie, précision, réfléxe, patience.
 
-Le joueur incarne une balle qui doit parcourir la map en moin de rebond possible.
+Le joueur incarne une balle qui doit détruire les cibles en parcourant la map en moin de rebond possible.
 
 ![wireframe](https://github.com/FuryLucky/Banshee-Project/blob/master/wireframe/wireframeunpeunul.png "wireframe 1")
 
