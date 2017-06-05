@@ -1,4 +1,4 @@
-# Banshee Project
+# Banshee Game
 
 Jeu de tir ou il faut detruire des cibles mais plusieur obstables pertuberont votre objectif.
 
