@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Tuto</title>
-	<meta charset="utf-8">
+    <title>Banshee - Lvl 6</title>
+    <meta charset="utf-8">
 
-	<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
-
-	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="../js/phaser.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    <script type="text/javascript" src="js/effet.js"></script>
+    <script type="text/javascript" src="../js/effet.js"></script>
 </head>
 <body>
-<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='menu.html'">
+<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='../index.html'">
+<p style="color: white; display: inline-block; margin-left: 580px; margin-bottom: 0px;"> :2: Rebond</p>
 <style type="text/css">
-
 body {
     background: #000;
     margin: 0;
@@ -26,19 +24,17 @@ canvas{
 }
 </style>
 <script type="text/javascript">
-	
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl Select', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl6', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-	game.load.image('back', 'img/back/0.jpeg');
-    game.load.image('target', 'img/target.png');
-    game.load.image('platform', 'img/platform.png');
-    game.load.image('start', 'img/start.png');
+    game.load.image('back', '../img/back/6.jpeg');
+    game.load.image('target', '../img/target.png');
+    game.load.image('platform', '../img/platform.png');
+    game.load.image('start', '../img/start.png');
     game.load.audio('bounce', '../sons/bounce.mp3');
     game.load.audio('lauchBall', '../sons/lauchBall.mp3');
     game.load.audio('hitBall', '../sons/hitBall.mp3');
-
- }
+}
 
 var sprite;
 var start;
@@ -54,7 +50,7 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    circle = game.add.sprite(700, 400, 'target');
+    circle = game.add.sprite(700, 300, 'target');
     circle.scale.setTo(0.2,0.2);
     circle.anchor.set(0.5);
 
@@ -65,14 +61,15 @@ function create() {
 
     game.physics.arcade.gravity.y = 0;
 
-    start = game.add.sprite(100, 400, 'start');
+    start = game.add.sprite(100, 300, 'start');
     start.scale.setTo(0.05,0.05);
     start.anchor.set(0.5);
 
 
-    sprite = game.add.sprite(100, 400);
+    sprite = game.add.sprite(100, 300);
     sprite.scale.setTo(0.1,0.1);
     sprite.anchor.set(0.5);
+
 
     game.physics.enable(sprite, Phaser.Physics.ARCADE);
 
@@ -93,29 +90,23 @@ function create() {
     circle.body.bounce.set(0);
     circle.body.gravity.y = 0;
 
-    wall1 = game.add.sprite(400, 200, 'platform');
-    wall1.scale.setTo(0.5,0.1);
+    wall1 = game.add.sprite(600, 500, 'platform');
+    wall1.scale.setTo(0.1,0.6);
     wall1.anchor.set(0.5);
-    game.physics.arcade.enable(wall1);
+    wall2 = game.add.sprite(200, 100, 'platform');
+    wall2.scale.setTo(0.1,0.6);
+    wall2.anchor.set(0.5);
+
+    game.physics.arcade.enable([wall1, wall2]);
+
     wall1.body.immovable = true;
-
-
-    game.stage.backgroundColor = '#182d3b';
-
-	var style = { font: "bold 32px Monoton", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-
-    text = game.add.text(0, 0, "Tutoriel", style);
-    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    text.setTextBounds(0, 30, 800, 100);
-
-    text1 = game.add.text(0, 0, "Target", style);
-    text1.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    text1.setTextBounds(0, 30, 1400, 600);
-
-    text2 = game.add.text(0, 0, "Spawn", style);
-    text2.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-    text2.setTextBounds(0, 30, 200, 600);
-
+    wall1.body.collideWorldBounds = true;
+    wall1.body.bounce.setTo(1, 1);
+    wall1.body.velocity.y = 250;
+    wall2.body.immovable = true;
+    wall2.body.collideWorldBounds = true;
+    wall2.body.bounce.setTo(1, 1);
+    wall2.body.velocity.y = 250;
 }
 
 function hitWorldBounds (sprite) {
@@ -130,6 +121,8 @@ function update() {
     start.rotation += 0.03;
     
     game.physics.arcade.collide(sprite, wall1, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall2, hitWorldBounds, null, this);
+
     game.physics.arcade.overlap(circle, sprite, overlapHandler, null, this);
 
     bmd.context.fillRect(sprite.x, sprite.y, 2, 2);
@@ -146,26 +139,26 @@ function update() {
         }    
     }
 
-    if (count === 2) 
+    if (count === 3) 
     {
-
-    	bg = game.add.sprite(0, 0, bmd);
-
         sprite.kill();
-        sprite = game.add.sprite(100, 400);
-	    sprite.scale.setTo(0.1,0.1);
-	    sprite.anchor.set(0.5);
-	    shoot=0;
-	    count=0;
-
-	    game.physics.enable(sprite, Phaser.Physics.ARCADE);
-
-	    sprite.body.collideWorldBounds = true;
-	    sprite.body.bounce.set(1);
-
-	    sprite.body.onWorldBounds = new Phaser.Signal();
-	    sprite.body.onWorldBounds.add(hitWorldBounds, this);
-
+        wall1.kill();
+        wall2.kill();
+        text = game.add.text(game.world.centerX, game.world.centerY, 'FAILED !');
+        //  Center align
+        text.anchor.set(0.5);
+        text.align = 'center';
+        //  Font style
+        text.font = 'Arial Black';
+        text.fontSize = 50;
+        text.fontWeight = 'bold';
+        //  Stroke color and thickness
+        text.stroke = '#000000';
+        text.strokeThickness = 6;
+        text.fill = 'orange';
+        setTimeout(function(){  
+            location.reload();
+          }, 600);
     }
 
 }
@@ -175,6 +168,9 @@ function overlapHandler (obj1, obj2) {
     hitBall();
 
     obj1.kill();
+    obj2.kill();
+    wall1.kill();
+    wall2.kill();
 
     text = game.add.text(game.world.centerX, game.world.centerY, 'HIT !');
     //  Center align
@@ -190,25 +186,8 @@ function overlapHandler (obj1, obj2) {
     text.fill = 'orange';
 
     setTimeout(function(){  
-        text.destroy();
-    }, 600);
-
-    setTimeout(function(){  
-    	circle = game.add.sprite(700, 400, 'target');
-	    circle.scale.setTo(0.2,0.2);
-	    circle.anchor.set(0.5);
-
-	    game.physics.arcade.enable(circle);
-
-	    var radius = circle.width / 2;
-
-	    circle.body.setCircle( radius,
-	    (-radius + 0.5 * circle.width  / circle.scale.x),
-	    (-radius + 0.5 * circle.height / circle.scale.y));
-	    circle.body.collideWorldBounds = true;
-	    circle.body.bounce.set(0);
-	    circle.body.gravity.y = 0;
-    }, 1200);
+        window.location.href='lvl7.html';
+    }, 2000);
     
 
 }
@@ -224,12 +203,11 @@ function launch() {
 
 function render() {
     // game.debug.body(wall1);
+    // game.debug.body(wall2);
     // game.debug.body(circle);
-    // game.debug.body(sprite);
+    game.debug.body(sprite);
+
 }
-
-
 </script>
-
 </body>
 </html>

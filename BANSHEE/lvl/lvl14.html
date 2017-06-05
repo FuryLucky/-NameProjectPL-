@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banshee - Lvl 14</title>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="../js/phaser.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script type="text/javascript" src="../js/effet.js"></script>
+</head>
+<body>
+<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='../index.html'">
+<p style="color: white; display: inline-block; margin-left: 580px; margin-bottom: 0px;"> :7: Rebond</p>
+<style type="text/css">
+body {
+    background: #000;
+    margin: 0;
+    cursor: crosshair;
+}
+canvas{
+    margin-top: 2%;
+    margin-left: 20%;
+}
+</style>
+<script type="text/javascript">
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl14', { preload: preload, create: create, update: update, render: render });
+
+function preload() {
+    game.load.image('back', '../img/back/14.jpeg');
+    game.load.image('target', '../img/target.png');
+    game.load.image('platform', '../img/platform.png');
+    game.load.image('start', '../img/start.png');
+    game.load.image('button', '../img/shadowblue.png');
+    game.load.image('button2', '../img/shadowyellow.png');
+    game.load.image('cube', '../img/cube.png');
+    game.load.audio('bounce', '../sons/bounce.mp3');
+    game.load.audio('cube_hit', '../sons/cube_hit.mp3');
+    game.load.audio('activeBall', '../sons/active.mp3');
+    game.load.audio('lauchBall', '../sons/lauchBall.mp3');
+    game.load.audio('hitBall', '../sons/hitBall.mp3');
+}
+
+var sprite;
+var start;
+var bmd;
+var explode;
+var circle;
+var count = 0;
+var shoot = 0;
+var nbTarget = 0;
+
+function create() {
+
+    background = game.add.tileSprite(0, 0, 800, 600, 'back');
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    circle1 = game.add.sprite(620, 300, 'target');
+    circle1.scale.setTo(0.2,0.2);
+    circle1.anchor.set(0.5);
+
+    circle2 = game.add.sprite(400, 120, 'target');
+    circle2.scale.setTo(0.2,0.2);
+    circle2.anchor.set(0.5);
+
+    circle3 = game.add.sprite(180, 300, 'target');
+    circle3.scale.setTo(0.2,0.2);
+    circle3.anchor.set(0.5);
+
+    bmd = game.add.bitmapData(800, 600);
+    bmd.context.fillStyle = '#ffffff';
+
+    var bg = game.add.sprite(0, 0, bmd);
+
+    game.physics.arcade.gravity.y = 0;
+
+    start = game.add.sprite(100, 500, 'start');
+    start.scale.setTo(0.05,0.05);
+    start.anchor.set(0.5);
+
+
+    sprite = game.add.sprite(100, 500);
+    sprite.scale.setTo(0.1,0.1);
+    sprite.anchor.set(0.5);
+
+    active1 = game.add.sprite(530, 280, 'button');
+    active1.scale.setTo(0.5,0.5);
+    active1.anchor.set(0.5);
+
+    active2 = game.add.sprite(380, 160, 'button');
+    active2.scale.setTo(0.5,0.5);
+    active2.anchor.set(0.5);
+
+    active25 = game.add.sprite(420, 160, 'button');
+    active25.scale.setTo(0.5,0.5);
+    active25.anchor.set(0.5);
+
+    active3 = game.add.sprite(273, 280, 'button');
+    active3.scale.setTo(0.5,0.5);
+    active3.anchor.set(0.5);
+
+    cube = game.add.sprite(220, 60, 'cube');
+    cube.scale.setTo(0.3,0.3);
+    cube.anchor.set(0.5);
+
+
+    game.physics.enable(sprite, Phaser.Physics.ARCADE);
+
+    sprite.body.collideWorldBounds = true;
+    sprite.body.bounce.set(1);
+
+    sprite.body.onWorldBounds = new Phaser.Signal();
+    sprite.body.onWorldBounds.add(hitWorldBounds, this);
+
+    game.physics.arcade.enable([circle1, circle2, circle3]);
+
+    var radius = circle1.width / 2;
+
+    circle1.body.setCircle( radius,
+    (-radius + 0.5 * circle1.width  / circle1.scale.x),
+    (-radius + 0.5 * circle1.height / circle1.scale.y));
+    circle1.body.collideWorldBounds = true;
+    circle1.body.bounce.set(0);
+    circle1.body.gravity.y = 0;
+
+    var radius = circle2.width / 2;
+
+    circle2.body.setCircle( radius,
+    (-radius + 0.5 * circle2.width  / circle2.scale.x),
+    (-radius + 0.5 * circle2.height / circle2.scale.y));
+    circle2.body.collideWorldBounds = true;
+    circle2.body.bounce.set(0);
+    circle2.body.gravity.y = 0;
+
+    var radius = circle3.width / 2;
+
+    circle3.body.setCircle( radius,
+    (-radius + 0.5 * circle3.width  / circle3.scale.x),
+    (-radius + 0.5 * circle3.height / circle3.scale.y));
+    circle3.body.collideWorldBounds = true;
+    circle3.body.bounce.set(0);
+    circle3.body.gravity.y = 0;
+
+    wall1 = game.add.sprite(400, 180, 'platform');
+    wall1.scale.setTo(0.2,0.3);
+    wall1.anchor.set(0.5);
+    wall2 = game.add.sprite(400, 344, 'platform');
+    wall2.scale.setTo(0.3,0.5);
+    wall2.anchor.set(0.5);
+    wall3 = game.add.sprite(450, 524, 'platform');
+    wall3.scale.setTo(0.1,0.38);
+    wall3.anchor.set(0.5);
+    wall4 = game.add.sprite(350, 524, 'platform');
+    wall4.scale.setTo(0.1,0.38);
+    wall4.anchor.set(0.5);
+    wall5 = game.add.sprite(220, 240, 'platform');
+    wall5.scale.setTo(0.1,0.5);
+    wall5.anchor.set(0.5);
+    wall6 = game.add.sprite(580, 370, 'platform');
+    wall6.scale.setTo(0.1,0.5);
+    wall6.anchor.set(0.5);
+
+    game.physics.arcade.enable([wall1, wall2, wall3, wall4, wall5, wall6]);
+
+    wall1.body.immovable = true;
+    wall2.body.immovable = true;
+    wall3.body.immovable = true;
+    wall4.body.immovable = true;
+    wall5.body.immovable = true;
+    wall6.body.immovable = true;
+
+    game.physics.arcade.enable(cube);
+
+    cube.body.collideWorldBounds = true;
+    cube.body.bounce.y = 0.2;
+    cube.body.gravity.y = 200;
+
+}
+
+function hitWorldBounds (sprite) {
+    bounceBall();
+    count++;  
+}
+
+function update() {
+
+    launchBall();
+
+    start.rotation += 0.03;
+    
+    game.physics.arcade.collide(sprite, wall1, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall2, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall3, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall4, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall5, hitWorldBounds, null, this);
+    game.physics.arcade.collide(sprite, wall6, hitWorldBounds, null, this);
+
+    game.physics.arcade.overlap(circle1, sprite, overlapHandler, target1destroy, null, this);
+    game.physics.arcade.overlap(circle2, sprite, overlapHandler, target2destroy, null, this);
+    game.physics.arcade.overlap(circle3, sprite, overlapHandler, target3destroy, null, this);
+
+    game.physics.arcade.overlap(sprite, cube, overlapcube, null, this);
+
+    game.physics.arcade.collide(cube, wall5);
+
+    bmd.context.fillRect(sprite.x, sprite.y, 2, 2);
+
+    bmd.dirty = true;
+
+    if (game.input.activePointer.isDown){
+        if (shoot === 0) {
+            launch()
+            shoot++;
+        }else{
+            return;
+        }    
+    }
+
+    if (count === 8) 
+    {
+        sprite.kill();
+        text = game.add.text(game.world.centerX, game.world.centerY, 'FAILED !');
+        //  Center align
+        text.anchor.set(0.5);
+        text.align = 'center';
+        //  Font style
+        text.font = 'Arial Black';
+        text.fontSize = 50;
+        text.fontWeight = 'bold';
+        //  Stroke color and thickness
+        text.stroke = '#000000';
+        text.strokeThickness = 6;
+        text.fill = 'orange';
+        setTimeout(function(){  
+            location.reload();
+        }, 600);
+    }
+}
+
+function target1destroy (obj1, obj2) {
+    overCube();
+    setTimeout(function(){  
+       wall6.body.moveTo(800, 230, Phaser.ANGLE_DOWN);     
+    }, 100);
+
+    activeBall = game.add.audio('activeBall');
+    activeBall.play();
+    
+    active1.kill();
+    active1 = game.add.sprite(530, 280, 'button2');
+    active1.scale.setTo(0.5,0.5);
+    active1.anchor.set(0.5);
+}
+
+function target2destroy (obj1, obj2) {
+    overCube();
+
+    activeBall = game.add.audio('activeBall');
+    activeBall.play();
+
+    active2 = game.add.sprite(380, 160, 'button2');
+    active2.scale.setTo(0.5,0.5);
+    active2.anchor.set(0.5);
+
+    active25 = game.add.sprite(420, 160, 'button2');
+    active25.scale.setTo(0.5,0.5);
+    active25.anchor.set(0.5);
+}
+
+function target3destroy (obj1, obj2) {
+    setTimeout(function(){  
+       wall5.kill();
+       overCube();    
+    }, 100); 
+
+    activeBall = game.add.audio('activeBall');
+    activeBall.play();
+    
+    active3.kill();
+    active3 = game.add.sprite(273, 280, 'button2');
+    active3.scale.setTo(0.5,0.5);
+    active3.anchor.set(0.5);
+}
+
+function overlapcube (sprite) {overCube(); cube.kill();}
+
+function overlapHandler (obj1, obj2) {
+
+    var bmdhit = game.add.bitmapData(0, 0);
+
+    var radgrad = bmdhit.ctx.createRadialGradient(32, 32, 4, 32, 32, 32);
+
+    radgrad.addColorStop(0, 'rgba(255, 0, 0, 1)');
+    radgrad.addColorStop(1, 'rgba(255, 0, 0, 0)');
+
+    bmdhit.context.fillStyle = radgrad;
+    bmdhit.context.fillRect(0, 0, 64, 64);
+
+    game.cache.addBitmapData('particleShade', bmdhit);
+
+    emitter = game.add.emitter(obj1.x+10, obj1.y+10, 75);
+    emitter.particleClass = MonsterParticle;
+    emitter.makeParticles();
+
+    emitter.setRotation(0, 0);
+    emitter.setScale(0.1, 0, 0.1, 0, 10000);
+
+    emitter.start(true, 5000, null, 100);
+
+    obj1.kill();
+
+    nbTarget++;
+
+    if (nbTarget === 3) {
+        obj2.kill();
+
+        text = game.add.text(game.world.centerX, game.world.centerY, 'Target Destroyed !');
+        //  Center align
+        text.anchor.set(0.5);
+        text.align = 'center';
+        //  Font style
+        text.font = 'Arial Black';
+        text.fontSize = 50;
+        text.fontWeight = 'bold';
+        //  Stroke color and thickness
+        text.stroke = '#000000';
+        text.strokeThickness = 6;
+        text.fill = 'orange';
+
+        setTimeout(function(){  
+            window.location.href='../index.html';
+        }, 2000);
+ 
+    }   
+}
+
+function launch() {
+
+    lauchBall = game.add.audio('lauchBall');
+    lauchBall.play();
+
+    game.physics.arcade.moveToPointer(sprite, 800);
+
+}
+
+function render() {
+    // game.debug.body(wall1);
+    // game.debug.body(wall2);
+    // game.debug.body(circle);
+    // game.debug.body(sprite);
+
+}
+</script>
+</body>
+</html>

@@ -38,6 +38,9 @@ function launchBall() {
 
 function bounceBall() {
 
+	bounce = game.add.audio('bounce');
+	bounce.play();
+
     var bmdOver = game.add.bitmapData(0, 0);
 
     var radgrad = bmdOver.ctx.createRadialGradient(32, 32, 4, 32, 32, 32);
@@ -62,6 +65,9 @@ function bounceBall() {
 }
 
 function hitBall() {
+
+	hit = game.add.audio('hitBall');
+	hit.play();
 	
     var bmdhit = game.add.bitmapData(0, 0);
 
@@ -83,6 +89,35 @@ function hitBall() {
     emitter.setScale(0.1, 0, 0.1, 0, 10000);
 
     emitter.start(true, 5000, null, 100);
+}
+
+function overCube() {
+
+	cube_hit = game.add.audio('cube_hit');
+	cube_hit.play();
+	
+    var bmdhit = game.add.bitmapData(0, 0);
+
+    var radgrad = bmdhit.ctx.createRadialGradient(32, 32, 4, 32, 32, 32);
+
+    radgrad.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    radgrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    bmdhit.context.fillStyle = radgrad;
+    bmdhit.context.fillRect(0, 0, 64, 64);
+
+    game.cache.addBitmapData('particleShade', bmdhit);
+
+    emitter = game.add.emitter(sprite.x+10, sprite.y+10, 20);
+    emitter.particleClass = MonsterParticle;
+    emitter.makeParticles();
+
+    emitter.setRotation(0, 0);
+    emitter.setScale(0.1, 0, 0.1, 0, 10000);
+
+    emitter.start(true, 5000, null, 100);
+
+    updateBitmapDataTexture();
 }
 
 
