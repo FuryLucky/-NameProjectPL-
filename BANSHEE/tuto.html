@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 
 	<link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+    <link href='css/level.css' rel='stylesheet' type='text/css'>
 
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -12,19 +13,9 @@
     <script type="text/javascript" src="js/effet.js"></script>
 </head>
 <body>
-<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='menu.html'">
-<style type="text/css">
-
-body {
-    background: #000;
-    margin: 0;
-    cursor: crosshair;
-}
-canvas{
-    margin-top: 2%;
-    margin-left: 20%;
-}
-</style>
+<input type="button" name="GoMenu" value="Menu" onclick="window.location.href='index.html'" style="margin-top: 10px">
+<input type="button" name="GoMenu" value="Start" onclick="window.location.href='lvl/lvl1.html'" style="margin-top: 10px">
+<p>Rebond(s) : <b id="count"></b></p>
 <script type="text/javascript">
 	
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl Select', { preload: preload, create: create, update: update, render: render });
@@ -45,7 +36,7 @@ var start;
 var bmd;
 var explode;
 var circle;
-var count = 0;
+var count = 2;
 var shoot = 0;
 
 function create() {
@@ -103,12 +94,17 @@ function create() {
     game.stage.backgroundColor = '#182d3b';
 
 	var style = { font: "bold 32px Monoton", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+    var style2 = { font: "bold 20px Monoton", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
     text = game.add.text(0, 0, "Tutoriel", style);
-    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    text.setShadow(3, 3, 'rgba(255, 204, 0,0.8)', 2);
     text.setTextBounds(0, 30, 800, 100);
 
-    text1 = game.add.text(0, 0, "Target", style);
+    text0 = game.add.text(0, 0, "\u261d Menu", style2);
+    text0.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    text0.setTextBounds(0, 30, 100, -20);
+
+    text1 = game.add.text(0, 0, "Cible", style);
     text1.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     text1.setTextBounds(0, 30, 1400, 600);
 
@@ -116,11 +112,19 @@ function create() {
     text2.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     text2.setTextBounds(0, 30, 200, 600);
 
+    text3 = game.add.text(0, 0, "Mur", style);
+    text3.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    text3.setTextBounds(0, 30, 800, 340);
+
+    text4 = game.add.text(0, 0, "nombre   de   rebond(s) \u261d", style2);
+    text4.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    text4.setTextBounds(0, 30, 1180, -20);
+
 }
 
 function hitWorldBounds (sprite) {
     bounceBall();
-    count++;  
+    count--;  
 }
 
 function update() {
@@ -146,9 +150,10 @@ function update() {
         }    
     }
 
-    if (count === 2) 
-    {
+    document.getElementById("count").innerHTML = count;
 
+    if (count < 0) 
+    {
     	bg = game.add.sprite(0, 0, bmd);
 
         sprite.kill();
@@ -156,7 +161,7 @@ function update() {
 	    sprite.scale.setTo(0.1,0.1);
 	    sprite.anchor.set(0.5);
 	    shoot=0;
-	    count=0;
+	    count=2;
 
 	    game.physics.enable(sprite, Phaser.Physics.ARCADE);
 

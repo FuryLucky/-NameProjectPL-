@@ -8,21 +8,14 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <script type="text/javascript" src="../js/effet.js"></script>
+
+    <link href='../css/level.css' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <input type="button" name="GoMenu" value="Menu" onclick="window.location.href='../index.html'">
-<p style="color: white; display: inline-block; margin-left: 580px; margin-bottom: 0px;"> :3: Rebond</p>
-<style type="text/css">
-body {
-    background: #000;
-    margin: 0;
-    cursor: crosshair;
-}
-canvas{
-    margin-top: 2%;
-    margin-left: 20%;
-}
-</style>
+<input type="button" name="GoMenu" value="Level Select" onclick="window.location.href='../lvlSelect.html'">
+<p>Rebond(s) : <b id="count"></b></p>
 <script type="text/javascript">
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'Lvl10', { preload: preload, create: create, update: update, render: render });
 
@@ -45,7 +38,7 @@ var bmd;
 var explode;
 var circle;
 var active;
-var count = 0;
+var count = 3;
 var shoot = 0;
 
 function create() {
@@ -128,7 +121,7 @@ function create() {
 
 function hitWorldBounds (sprite) {
     bounceBall();
-    count++;  
+    count--;  
 }
 
 function activeDetect (sprite) {
@@ -171,8 +164,11 @@ function update() {
         }    
     }
 
-    if (count >= 4) 
+    document.getElementById("count").innerHTML = count;
+
+    if (count < 0) 
     {
+        count = 0;
         sprite.kill();
         wall1.kill();
         wall2.kill();
